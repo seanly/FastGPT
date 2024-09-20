@@ -43,8 +43,8 @@ Table of Contents</button><nav id=toc-mobile><ul class=dropdown-menu><li><ul><li
 &lt;Content&gt;
 ${content}
 &lt;/Content&gt;</code>
-  </pre></div><h3 id=工具调用如何使用文档解析>工具调用如何使用文档解析 <a href=#%e5%b7%a5%e5%85%b7%e8%b0%83%e7%94%a8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e6%96%87%e6%a1%a3%e8%a7%a3%e6%9e%90 class=anchor aria-hidden=true><i class="material-icons align-middle">link</i></a></h3><p>在工具调用中，文档解析节点的调用提示词为：<code>解析对话中所有上传的文档，并返回对应文档内容</code>。</p><p>作为工具被执行后，文档解析节点会返回解析后的文档内容作为工具响应。</p><h3 id=ai对话中如何使用文档解析>AI对话中如何使用文档解析 <a href=#ai%e5%af%b9%e8%af%9d%e4%b8%ad%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e6%96%87%e6%a1%a3%e8%a7%a3%e6%9e%90 class=anchor aria-hidden=true><i class="material-icons align-middle">link</i></a></h3><p>在 AI 对话节点中，新增了一个文档引用的输入，可以直接引用文档解析节点的输出，从而实现文档内容的引用。</p><p>它接收一个<code>string</code>类型的输入，除了可以引用文档解析结果外，还可以实现自定义内容引用，最终会进行提示词拼接，放置在 role=system 的消息中。提示词模板如下：</p><div class=prism-codeblock><pre id=0aedb26 class=language->
-  <code>将 &lt;Quote&gt;&lt;/Quote&gt; 中的内容作为本次对话的参考内容:
+  </pre></div><h3 id=工具调用如何使用文档解析>工具调用如何使用文档解析 <a href=#%e5%b7%a5%e5%85%b7%e8%b0%83%e7%94%a8%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e6%96%87%e6%a1%a3%e8%a7%a3%e6%9e%90 class=anchor aria-hidden=true><i class="material-icons align-middle">link</i></a></h3><p>在工具调用中，文档解析节点的调用提示词为：<code>解析对话中所有上传的文档，并返回对应文档内容</code>。</p><p>作为工具被执行后，文档解析节点会返回解析后的文档内容作为工具响应。</p><h3 id=ai对话中如何使用文档解析>AI对话中如何使用文档解析 <a href=#ai%e5%af%b9%e8%af%9d%e4%b8%ad%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e6%96%87%e6%a1%a3%e8%a7%a3%e6%9e%90 class=anchor aria-hidden=true><i class="material-icons align-middle">link</i></a></h3><p>在 AI 对话节点中，新增了一个文档引用的输入，可以直接引用文档解析节点的输出，从而实现文档内容的引用。</p><p>它接收一个<code>string</code>类型的输入，除了可以引用文档解析结果外，还可以实现自定义内容引用，最终会进行提示词拼接，放置在 role=system 的消息中。提示词模板如下：</p><div class=prism-codeblock><pre id=f85539f class=language->
+  <code>将 &lt;Quote&gt;&lt;/Quote&gt; 中的内容作为本次对话的参考:
 &lt;Quote&gt;
 {{quote}}
 &lt;/Quote&gt;</code>
