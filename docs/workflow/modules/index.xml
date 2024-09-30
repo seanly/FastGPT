@@ -32,10 +32,12 @@ import cloud from &amp;#39;@lafjs/cloud&amp;#39; interface IRequestBody { // 自
 工具调用可以让 LLM 更动态的决策流程，而不都是固定的流程。（当然，缺点就是费tokens）
 工具的组成 link 工具介绍。通常是模块的介绍或插件的介绍，这个介绍会告诉LLM，这个工具的作用是什么。 工具参数。对于系统模块来说，工具参数已经是固定的，无需额外配置。对于插件来说，工具参数是一个可配置项。 工具是如何运行的 link要了解工具如何运行的，首先需要知道它的运行条件。
 需要工具的介绍（或者叫描述）。这个介绍会告诉LLM，这个工具的作用是什么，LLM会根据上下文语义，决定是否需要调用这个工具。 工具的参数。有些工具调用时，可能需要一些特殊的参数。参数中有2个关键的值：参数介绍和是否必须。 结合工具的介绍、参数介绍和参数是否必须，LLM会决定是否调用这个工具。有以下几种情况：
-无参数的工具：直接根据工具介绍，决定是否需要执行。例如：获取当前时间。 有参数的工具： 无必须的参数：尽管上下文中，没有适合的参数，也可以调用该工具。但有时候，LLM会自己伪造一个参数。 有必须的参数：如果没有适合的参数，LLM可能不会调用该工具。可以通过提示词，引导用户提供参数。 工具调用逻辑 link在支持函数调用的模型中，可以一次性调用多个工具，调用逻辑如下：
+无参数的工具：直接根据工具介绍，决定是否需要执行。例如：获取当前时间。 有参数的工具： 无必须的参数：尽管上下文中，没有适合的参数，也可以调用该工具。但有时候，LLM会自己伪造一个参数。 有必须的参数：如果没有适合的参数，LLM可能不会调用该工具。可以通过提示词，引导用户提供参数。 在支持函数调用的模型中，可以一次性调用多个工具，调用逻辑如下：
 怎么用 link 有工具调用模块 无工具调用模块 高级编排中，托动工具调用的连接点，可用的工具头部会出现一个菱形，可以将它与工具调用模块底部的菱形相连接。
-被连接的工具，会自动分离工具输入与普通的输入，并且可以编辑介绍，可以通过调整介绍，使得该工具调用时机更加精确。
+被连接的工具，会自动分离工具输入与普通的输入，并且可以编辑描述，可以通过调整介绍，使得该工具调用时机更加精确。对于一些内置的节点，务必修改描述才能让模型正常调用。
 关于工具调用，如何调试仍然是一个玄学，所以建议，不要一次性增加太多工具，选择少量工具调优后再进一步尝试。
+组合节点 link工具调用终止 link工具调用默认会把子流程运行的结果作为工具结果，返回给模型进行回答。有时候，你可能不希望模型做回答，你可以给对应子流程的末尾增加上一个工具调用终止节点，这样，子流程的结果就不会被返回给模型。
+自定义工具变量 link工具调用的子流程运行，有时候会依赖AI生成的一些变量，为了简化交互流程，我们给系统内置的节点都指定了工具变量。然而，有些时候，你需要的变量不仅是目标流程的首个节点的变量，而是需要更复杂的变量，此时你可以使用自定义工具变量。它允许你完全自定义该工具流程的变量。
 相关示例 link 谷歌搜索 发送飞书webhook</description></item><item><title>知识库搜索</title><link>https://doc.tryfastgpt.ai/docs/workflow/modules/dataset_search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://doc.tryfastgpt.ai/docs/workflow/modules/dataset_search/</guid><description>知识库搜索具体参数说明，以及内部逻辑请移步：FastGPT知识库搜索方案
 特点 link 可重复添加（复杂编排时防止线太乱，可以更美观） 有外部输入 有静态配置 触发执行 核心模块 参数说明 link输入 - 关联的知识库 link可以选择一个或多个相同向量模型的知识库，用于向量搜索。
 输入 - 搜索参数 link点击查看参数介绍
@@ -52,7 +54,15 @@ Laf 是云开发平台，可以快速的开发应用 Laf 是一个开源的 BaaS
 作用 link适用场景有：让大模型做判断后输出固定内容，根据大模型回复内容判断是否触发后续模块。</description></item><item><title>文本加工</title><link>https://doc.tryfastgpt.ai/docs/workflow/modules/text_editor/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://doc.tryfastgpt.ai/docs/workflow/modules/text_editor/</guid><description>特点 link 可重复添加 有外部输入 触发执行 手动配置 功能 link对输入文本进行固定加工处理，入参仅支持字符串和数字格式，入参以变量形式使用在文本编辑区域。
 根据上方示例图的处理方式，对任何输入都会在前面拼接“用户的问题是:”。
 作用 link给任意模块输入自定格式文本，或处理 AI 模块系统提示词。
-示例 link 接入谷歌搜索</description></item><item><title>问题优化（已合并到知识库搜索）</title><link>https://doc.tryfastgpt.ai/docs/workflow/modules/coreferenceresolution/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://doc.tryfastgpt.ai/docs/workflow/modules/coreferenceresolution/</guid><description>特点 link 可重复添加 有外部输入 触发执行 背景 link在 RAG 中，我们需要根据输入的问题去数据库里执行 embedding 搜索，查找相关的内容，从而查找到相似的内容（简称知识库搜索）。
+示例 link 接入谷歌搜索</description></item><item><title>代码运行</title><link>https://doc.tryfastgpt.ai/docs/workflow/modules/sandbox/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://doc.tryfastgpt.ai/docs/workflow/modules/sandbox/</guid><description>功能 link可用于执行一段简单的 js 代码，用于进行一些复杂的数据处理。代码运行在沙盒中，无法进行网络请求、dom和异步操作。如需复杂操作，需外挂 HTTP 实现。
+注意事项
+私有化用户需要部署fastgpt-sandbox 镜像，并配置SANDBOX_URL环境变量。 沙盒最大运行 10s， 32M 内存限制。 变量输入 link可在自定义输入中添加代码运行需要的变量，在代码的 main 函数中，可解构出相同名字的变量。
+如上图，自定义输入中有 data1 和 data2 两个变量，main 函数中可以解构出相同名字的变量。
+结果输出 link务必返回一个 object 对象
+自定义输出中，可以添加变量名来获取 object 对应 key 下的值。例如上图中，返回了一个对象：
+{ result: data1, data2 } 他有 2 个 key：result和 data2(js 缩写，key=data2，value=data2)。这时候自定义输出中就可以添加 2 个变量来获取对应 key 下的 value。
+内置 JS 全局变量 linkdelay 延迟 link延迟 1 秒后返回
+async function main({data1, data2}){ await delay(1000) return { result: &amp;#34;111&amp;#34; } } countToken 统计 token link function main({input}){ return { result: countToken(input) } } strToBase64 字符串转 base64(4.</description></item><item><title>问题优化（已合并到知识库搜索）</title><link>https://doc.tryfastgpt.ai/docs/workflow/modules/coreferenceresolution/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://doc.tryfastgpt.ai/docs/workflow/modules/coreferenceresolution/</guid><description>特点 link 可重复添加 有外部输入 触发执行 背景 link在 RAG 中，我们需要根据输入的问题去数据库里执行 embedding 搜索，查找相关的内容，从而查找到相似的内容（简称知识库搜索）。
 在搜索的过程中，尤其是连续对话的搜索，我们通常会发现后续的问题难以搜索到合适的内容，其中一个原因是知识库搜索只会使用“当前”的问题去执行。看下面的例子：
 用户在提问“第二点是什么”的时候，只会去知识库里查找“第二点是什么”，压根查不到内容。实际上需要查询的是“QA结构是什么”。因此我们需要引入一个【问题优化】模块，来对用户当前的问题进行补全，从而使得知识库搜索能够搜索到合适的内容。使用补全后效果如下：
 功能 link调用 AI 去对用户当前的问题进行补全。目前主要是补全“指代”词，使得检索词更加的完善可靠，从而增强上下文连续对话的知识库搜索能力。
